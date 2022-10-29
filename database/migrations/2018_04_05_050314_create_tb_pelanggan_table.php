@@ -20,6 +20,7 @@ class CreateTbPelangganTable extends Migration
             $table->string('username_pelanggan');
             $table->string('password_pelanggan');
             $table->string('foto_pelanggan');
+            $table->text('testimoni')->nullable()->default(null);
             $table->string('remember_token');
             $table->timestamps();
         });

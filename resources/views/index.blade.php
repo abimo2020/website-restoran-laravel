@@ -168,37 +168,61 @@
 
         <div id="kata" class="row">
             <div class="col-12">
-                <div id="myCarousel" class="carousel slide" data-ride="carousel">
+                <div id="myCarousel" class="carousel slide" data-ride="carousel" data-interval="2000">
                   <ol class="carousel-indicators">
                     <li data-target="#myCarousel" data-slide-to="0" class="active"></li>
                     <li data-target="#myCarousel" data-slide-to="1"></li>
                     <li data-target="#myCarousel" data-slide-to="2"></li>
                   </ol>
                   <div class="carousel-inner">
+
+                    @foreach ($testimoni as $testi)
+                    <div class="carousel-item @if($loop->iteration == 1) active @endif" style="height: 300px">
+                        <div class="container">
+                          <div class="carousel-caption">
+                            <h3 class="display-4" style="color:#5e493a;font-size: 40px ;">{{$testi->testimoni}}</h3>
+                            <p class="h4" style="color: gray; padding-top:20px;padding-bottom: 20px">{{$testi->nama_pelanggan}}</p>
+                          </div>
+                        </div>
+                    </div>
+                    @endforeach
+            
+                        
+                    {{-- @foreach ( $testi1->where('testimoni','<>','') as $testi )
+                        
+                    
                     <div class="carousel-item active" style="height: 300px">
                       <div class="container">
                         <div class="carousel-caption">
-                          <h3 class="display-4" style="color:#5e493a;font-size: 40px ;">"Makan adalah hobiku. 8-Stars Restaurant mengirim hobiku ke tingkatan selanjutnya."</h3>
-                          <p class="h4" style="color: gray; padding-top:20px;padding-bottom: 20px">Adhiarta</p>
+                          <h3 class="display-4" style="color:#5e493a;font-size: 40px ;">{{$testi->testimoni}}</h3>
+                          <p class="h4" style="color: gray; padding-top:20px;padding-bottom: 20px">{{$testi->nama_pelanggan}}</p>
                         </div>
                       </div>
                     </div>
+                    @endforeach
+
+                    @foreach ($testi2->where('testimoni','<>','') as $testi )
+                        
+                    
                     <div class="carousel-item" style="height: 300px">
                       <div class="container">
                         <div class="carousel-caption">
-                          <h3 class="display-1" style="color:#5e493a;font-size: 40px ;">"Pelayanannya ramah, tempatnya bersih, mantap deh pokoknya."</h3>
-                          <p class="h2" style="color: gray;padding-top:20px;padding-bottom: 20px">Marria Tesalonika</p>
+                          <h3 class="display-1" style="color:#5e493a;font-size: 40px ;">{{$testi->testimoni}}</h3>
+                          <p class="h2" style="color: gray;padding-top:20px;padding-bottom: 20px">{{$testi->nama_pelanggan}}</p>
                         </div>
                       </div>
-                    </div>
+                    </div>@endforeach
+                    @foreach ($testi3->where('testimoni','<>','') as $testi)
+                        
+                    
                     <div class="carousel-item" style="height: 300px">
                       <div class="container">
                         <div class="carousel-caption">
-                          <h3 class="display-1" style="color:#5e493a;font-size: 40px ;">"Websitenya sangat bagus, apalagi restorannya, MANTAP."</h3>
-                          <p class="h2" style="color: gray;padding-top:20px;padding-bottom: 20px">Urip Y</p>
+                          <h3 class="display-1" style="color:#5e493a;font-size: 40px ;">{{$testi->testimoni}}</h3>
+                          <p class="h2" style="color: gray;padding-top:20px;padding-bottom: 20px">{{$testi->nama_pelanggan}}</p>
                         </div>
                       </div>
-                    </div>
+                    </div>@endforeach --}}
                   </div>
                 </div>
             </div>                
@@ -220,11 +244,12 @@
 
                                     <div class="col-md-6" style="height: 200px;background-image: url({{ asset('images/hidangan/'.$hidangan->foto_hidangan) }})">
                                     </div>
-                                    <div class="col-md-6" style="background: @if($i==1||$i==4||$i==5) #f5f5f5 @else #faebcd @endif
-                                    ;padding: 30px 20px">
-                                        <div style="position:absolute;height:1px;width:1px;border:15px solid transparent;border-right: 15px solid @if($i==1||$i==4||$i==5) #f5f5f5 @else #faebcd @endif;left:-30px;top:80px"></div>
-                                        <h3 style="text-align: center;color: #444;line-height: 200%"><span style="border-bottom:2px solid #fb6e14">{{$hidangan->nama_hidangan}}</span></h3>
-                                        <p class="display-4" style="margin-top:30px;font-size: 40px; text-align: center;color: #5e493a">IDR {{$hidangan->harga_hidangan}}</p>
+                                    <div class="col-md-6" style="">
+                                        <br>
+                                        {{-- <div style="position:absolute;height:1px;width:1px;border:15px solid transparent;border-right: 15px solid @if($i==1||$i==4||$i==5) #f5f5f5 @else #faebcd @endif;left:-30px;top:80px"></div> --}}
+                                        <h3 style="text-align: center;color: rgb(255, 255, 255);line-height: 200%"><span style="border-bottom:2px solid #fafafa">{{$hidangan->nama_hidangan}}</span></h3>
+                                        <p class="display-4" style="margin-top:30px;font-size: 40px; text-align: center;color: #ffffff">IDR {{$hidangan->harga_hidangan}}</p>
+                                    <br><br><br><br>
                                     </div>
                                 </div>
                             </div>
@@ -273,6 +298,7 @@
                                 <h4 class="card-title">{{$pelanggan['nama_pelanggan']}}</h4>
                                 <p class="card-text">{{$pelanggan['email_pelanggan']}} - {{$pelanggan['username_pelanggan']}}</p>
                                 <a href="{{URL('pelanggan/reservasi/create')}}" class="btn btn-primary">Reservasi</a>
+                                <a href="{{URL('pelanggan/testimoni')}}" class="btn btn-warning">Testimoni</a>
                               </div>
                             </div>
                         @else

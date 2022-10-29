@@ -23,6 +23,8 @@ Route::group(['prefix'=>'pelanggan'], function(){
 	Route::get('logout', 'PelangganController@logout');
 	Route::get('register', 'PelangganController@showRegisterForm');
 	Route::post('register', 'PelangganController@register');
+	Route::get('testimoni', 'PelangganReservasiController@testimoni');
+	Route::patch('testimoni-create', 'PelangganReservasiController@testimoniStore');
 
 	Route::resource('reservasi', 'PelangganReservasiController');
 	Route::resource('pemesanan', 'PelangganPemesananController');

@@ -144,6 +144,7 @@
                         <li class="nav-label">Pelanggan</li>
 
                         <li class="{{{(Request::is('pelanggan') ? 'active' : '')}}}"> <a href="{{URL('pelanggan')}}" aria-expanded="false"><i class="fa fa-tachometer"></i>Dashboard </a></li>
+                        <li class="{{{(Request::is('pelanggan/testimoni') ? 'active' : '')}}}"> <a href="{{URL('pelanggan/testimoni')}}" aria-expanded="false"><i class="fa fa-comment-o"></i>Testimoni </a></li>
                         <li class="{{{(Request::is('pelanggan/reservasi') ? 'active' : '')}}}"> <a class="has-arrow  " href="#" aria-expanded="false"><i class="fa fa-envelope"></i><span class="hide-menu">Reservasi</span></a>
                             <ul aria-expanded="false" class="collapse">
                                 <li><a href="{{URL('pelanggan/reservasi')}}">Semua Reservasi</a></li>

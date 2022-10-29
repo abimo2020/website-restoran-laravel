@@ -14,6 +14,7 @@ class IndexController extends Controller {
         $hidangan = Hidangan::limit(6)->get();
         $makanan = Hidangan::where('jenis_hidangan', 'Makanan')->get();
         $minuman = Hidangan::where('jenis_hidangan', 'Minuman')->get();
+        $testimoni = Pelanggan::where('testimoni','<>','')->get()->random(3);
 
         if(isset($_SESSION['id_pelanggan'])){
             $row = Pelanggan::where('id_pelanggan', $_SESSION['id_pelanggan'])->first();
@@ -25,7 +26,7 @@ class IndexController extends Controller {
                 'foto_pelanggan' => $row['foto_pelanggan'],
             ];
             $islogin = ['login' => 'pelanggan'];
-            return view('index', compact('pelanggan', 'islogin', 'hidangan', 'makanan', 'minuman'));
+            return view('index', compact('pelanggan', 'islogin', 'hidangan', 'makanan', 'minuman','testimoni'));
         } else if(isset($_SESSION['id_pegawai'])){
             $row = Pegawai::where('id_pegawai', $_SESSION['id_pegawai'])->first();
             $pegawai = [
@@ -37,10 +38,10 @@ class IndexController extends Controller {
                 'foto_pegawai' => $row['foto_pegawai'],
             ];
             $islogin = ['login' => 'pegawai'];
-            return view('index', compact('pegawai', 'islogin', 'hidangan', 'makanan', 'minuman'));
+            return view('index', compact('pegawai', 'islogin', 'hidangan', 'makanan', 'minuman','testimoni'));
         } else {
             $islogin = ['login' => 'false'];
-            return view('index', compact('islogin', 'makanan', 'hidangan', 'minuman'));
+            return view('index', compact('islogin', 'makanan', 'hidangan', 'minuman', 'testimoni'));
         }
     }
     public function getHidangan($jenis_hidangan){
