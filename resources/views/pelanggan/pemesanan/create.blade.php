@@ -7,7 +7,14 @@
 @section('email_pelanggan', $pelanggan['email_pelanggan'])
 
 @section('content')
+
+    
                     <div class="card">
+                            @if (session()->has('error'))
+                                <div class="alert alert-danger">
+                                    {{ session()->get('error')}}
+                                </div>
+                            @endif
                             <div class="basic-form">
                                  <form method="POST" action="{{ URL('pelanggan/pemesanan/') }}">
                                     {{ csrf_field() }}
@@ -40,7 +47,12 @@
                                                     <div class="row">
                                                         <input type="checkbox" class="form-control col-md-4" name="hidangan[]" value="{{$makanan->id_hidangan}}">
                                                         <input type="hidden" class="form-control" name="harga_hidangan{{$makanan->id_hidangan}}" value="{{$makanan->harga_hidangan}}">
-                                                        <input type="text" class="form-control col-md-8" name="jumlah_hidangan{{$makanan->id_hidangan}}" placeholder="Jumlah">
+                                                        <input type="text" class="form-control col-md-8 @error('harga_hidangan{{$makanan->id_hidangan}}') is-invalid @enderror" name="jumlah_hidangan{{$makanan->id_hidangan}}" placeholder="Jumlah">
+                                                        {{-- @error('harga_hidangan{{$makanan->id_hidangan}}')
+                                                            <span class="invalid-feedback" role="alert">
+                                                                <strong>{{ $message }}</strong>
+                                                            </span>
+                                                        @enderror --}}
                                                     </div>
                                                   </div>
                                                 </div>

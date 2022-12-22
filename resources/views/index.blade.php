@@ -396,7 +396,7 @@
               <div class="modal-header">
               <div class="modal-body">
                 <h2 class="display-4" style="text-align:center;font-size: 30px;padding-bottom: 40px">Login</h2>
-                <form method='POST' action='{{ URL('pelanggan/login') }}'>
+                {{-- <form method='POST' action='{{ URL('pelanggan/login') }}'>
                     @csrf
                     <div class='form-group row'>
                         <label class="col-md-3">Email</label>
@@ -411,11 +411,15 @@
                         </div>
                     </div>
                     <div class='register-link m-t-15 text-center'>
-
                         <button type='submit' class='btn btn-primary btn-flat m-b-30 m-t-30'>Sign in</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal" style="margin-left:10px">Close</button>
                     </div>
-                </form>
+                </form> --}}
+                <div class="d-flex justify-content-center">
+                    <a href="{{URL('pegawai/login')}}" class="btn btn-primary btn-flat">Login Pegawai</a>&nbsp;
+                    <a href="{{URL('pelanggan/login')}}" class="btn btn-success btn-flat">Login Pelanggan</a>
+                </div>
+                
               </div>
             </div>
           </div>

@@ -33,7 +33,7 @@
                                             </select>
                                         </div>
                                         <div style="text-align: right;">
-                                            <button type="submit" class="btn btn-primary">Lanjutkan</button>
+                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah reservasi yang dipilih sudah benar?')">Lanjutkan</button>
                                             <a class="btn btn-danger" href="{{URL('pelanggan/reservasi')}}">Batal</a>
                                         </div>
                                     </form>

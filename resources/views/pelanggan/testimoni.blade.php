@@ -13,7 +13,7 @@
                         <div class="card" style="background: #f5f5f5">
                                 <div class="basic-form">
                                     <form method="POST" action="{{ URL('pelanggan/testimoni-create') }}">
-                                        @method('PATCH');
+                                        @method('PATCH')
                                         {{ csrf_field() }}
 
                                         <div class="form-group">
@@ -21,7 +21,7 @@
                                             <input type="text" class="form-control" id="testimoni" placeholder="" name="testimoni">
                                         </div>
                                         <div style="text-align: right;">
-                                            <button type="submit" class="btn btn-primary">Lanjutkan</button>
+                                            <button type="submit" class="btn btn-primary" onclick="return confirm('Apakah testimoni sudah benar?')">Lanjutkan</button>
                                             <a class="btn btn-danger" href="{{URL('pelanggan')}}">Batal</a>
                                         </div>
                                     </form>

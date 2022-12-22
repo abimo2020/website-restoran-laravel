@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
-
+use Exception;
 use App\Pelanggan;
 use App\Pemesanan;
 use App\DetilPemesanan;
@@ -52,53 +52,62 @@ class PelangganPemesananController extends Controller {
         +---------------------------------------------*/
 
         // 1.
-        $pelanggan = PelangganController::getPelanggan();
-        $data = [
-            'id_pelanggan' => $pelanggan['id_pelanggan'],
-            'id_restoran' => $request->id_restoran,
-            'id_pegawai' => 1,
-            'created_at' => date("Y-m-d H:i:s"),
-            'updated_at' => date("Y-m-d H:i:s")
-        ];
-        Pemesanan::insert($data);
-
-        // 2.
-        $sql = Pemesanan::select('id_pemesanan')->where('id_pelanggan', '=', $pelanggan['id_pelanggan'])->orderBy('id_pemesanan', 'desc')->first();
-        $id_pemesanan = $sql['id_pemesanan'];
-
-        // 3.
-        $id_hidangan = $request->hidangan;
-
-        // 4.
-        $total_pemesanan = 0;
-
-        foreach ($id_hidangan as $id_hidangan) {
-            $jml = 'jumlah_hidangan'.$id_hidangan;
-            $hrg = 'harga_hidangan'.$id_hidangan;
-
-            $jumlah_hidangan = $_POST[$jml];
-            $harga_hidangan = $_POST[$hrg];
-            $total_harga_hidangan = ((int)$jumlah_hidangan * (int)$harga_hidangan);
-            $data2 = [
-                'id_pemesanan' => $id_pemesanan,
-                'id_hidangan' => $id_hidangan,
-                'jumlah_hidangan' => $jumlah_hidangan,
-                'total_harga_hidangan' => $total_harga_hidangan,
+        try{
+            DB::beginTransaction();
+            $pelanggan = PelangganController::getPelanggan();
+            $data = [
+                'id_pelanggan' => $pelanggan['id_pelanggan'],
+                'id_restoran' => $request->id_restoran,
+                'id_pegawai' => 1,
                 'created_at' => date("Y-m-d H:i:s"),
                 'updated_at' => date("Y-m-d H:i:s")
             ];
-            DetilPemesanan::insert($data2);
-
-            $total_pemesanan = $total_pemesanan + $total_harga_hidangan;
+            Pemesanan::insert($data);
+    
+            // 2.
+            $sql = Pemesanan::select('id_pemesanan')->where('id_pelanggan', '=', $pelanggan['id_pelanggan'])->orderBy('id_pemesanan', 'desc')->first();
+            $id_pemesanan = $sql['id_pemesanan'];
+    
+            // 3.
+            $id_hidangan = $request->hidangan;
+    
+            // 4.
+            $total_pemesanan = 0;
+    
+            foreach ($id_hidangan as $id_hidangan) {
+                $jml = 'jumlah_hidangan'.$id_hidangan;
+                $hrg = 'harga_hidangan'.$id_hidangan;
+    
+                $jumlah_hidangan = $_POST[$jml];
+                $harga_hidangan = $_POST[$hrg];
+                $total_harga_hidangan = ((int)$jumlah_hidangan * (int)$harga_hidangan);
+                $data2 = [
+                    'id_pemesanan' => $id_pemesanan,
+                    'id_hidangan' => $id_hidangan,
+                    'jumlah_hidangan' => $jumlah_hidangan,
+                    'total_harga_hidangan' => $total_harga_hidangan,
+                    'created_at' => date("Y-m-d H:i:s"),
+                    'updated_at' => date("Y-m-d H:i:s")
+                ];
+                DetilPemesanan::insert($data2);
+    
+                $total_pemesanan = $total_pemesanan + $total_harga_hidangan;
+            }
+    
+            // 5.
+            $data3 = [
+                'total_pemesanan' => $total_pemesanan,
+            ];
+            Pemesanan::where('id_pemesanan', $id_pemesanan)->update($data3);
+            DB::commit();
+            return redirect('pelanggan/pemesanan');
+        }catch(Exception $e){
+            DB::rollback();
+            $error = $e->getMessage();
+            return back()->with('error',"Mohon untuk melakukan checklist pemesanan dan mengisi pemesanan dengan angka dan tidak kosong");
+            // var_dump($e->getMessage());
         }
-
-        // 5.
-        $data3 = [
-            'total_pemesanan' => $total_pemesanan,
-        ];
-        Pemesanan::where('id_pemesanan', $id_pemesanan)->update($data3);
-
-        return redirect('pelanggan/pemesanan');
+       
     }
 
     /**
